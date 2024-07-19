@@ -33,12 +33,9 @@ function saveNote(){
 
     if(title.trim() === '' || content.trim() === ''){
         alert('Both title and content are required')
-        console.log('hui');
-
         return;
     }
 
-    console.log('kuku');
     const note = {
         title: title,
         content: content,
@@ -72,8 +69,24 @@ function addNoteToList(note) {
     noteContent.textContent = note.content;
     noteContent.style.fontSize = '22px'
 
-    noteDiv.appendChild(noteTitle);
-    noteDiv.appendChild(noteContent);
+    const deleteIcon = document.createElement('span')
+    deleteIcon.innerHTML = '<i class="ri-delete-bin-fill"></i>'
+    deleteIcon.style.cursor = 'pointer'
+    deleteIcon.className ='delete-btn'
+
+    deleteIcon.addEventListener('click', function(e){
+        e.target.parentElement.parentElement.remove()
+    })
+    
+    const innerNote = document.createElement('div')
+    innerNote.className = 'inner-note'
+
+    innerNote.appendChild(noteTitle)
+    innerNote.appendChild(noteContent)
+    noteDiv.appendChild(innerNote)
+    noteDiv.appendChild(deleteIcon)
 
     notesList.appendChild(noteDiv);
 }
+
+

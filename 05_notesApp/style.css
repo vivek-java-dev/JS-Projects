@@ -127,6 +127,11 @@ body{
     border-radius: 12px;
     font-size:32px;
     padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
 }
 ::-webkit-scrollbar {
     width: 8px; 
@@ -145,3 +150,4 @@ body{
 ::-webkit-scrollbar-corner {
     background: transparent;
 }
+
