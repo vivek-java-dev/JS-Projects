@@ -12,14 +12,13 @@ createBtn.addEventListener('click', () => {
     newNoteForm.style.display = 'flex'
     notesList.style.display = 'none'
 })
+
 addBtn.addEventListener('click',() => {
 
     if (addBtn.innerHTML == 'Add') {
-
         createBtn.style.display = 'none'
         noteContent.style.display = 'block'
         addBtn.innerHTML = 'Save'
-
     }else if(addBtn.innerHTML == 'Save'){
         saveNote();
     }
@@ -40,11 +39,15 @@ function saveNote(){
         title: title,
         content: content,
         id: new Date().getTime()
-
     }
 
     addNoteToList(note);
-    
+    resetForm();
+}
+
+
+
+function resetForm() {
     titleBox.value = ''
     noteTextarea.value = ''
     addBtn.innerHTML = 'Add'
@@ -53,8 +56,9 @@ function saveNote(){
     noteContent.style.display = 'none'
     notesList.style.display = 'flex'
     createBtn.style.display = 'initial'
-
 }
+
+
 
 function addNoteToList(note) {
     
@@ -71,7 +75,6 @@ function addNoteToList(note) {
 
     const deleteIcon = document.createElement('span')
     deleteIcon.innerHTML = '<i class="ri-delete-bin-fill"></i>'
-    deleteIcon.style.cursor = 'pointer'
     deleteIcon.className ='delete-btn'
 
     deleteIcon.addEventListener('click', function(e){
@@ -87,6 +90,59 @@ function addNoteToList(note) {
     noteDiv.appendChild(deleteIcon)
 
     notesList.appendChild(noteDiv);
+
+    innerNote.addEventListener('click', loadNoteToUpdate)
+    
 }
 
 
+function loadNoteToUpdate(e) {
+    const noteDiv = e.target.parentElement
+    const noteId = noteDiv.parentElement.dataset.id
+    const title = noteDiv.querySelector('h3').innerHTML
+    const content = noteDiv.querySelector('p').innerHTML
+
+    console.log(title);
+    console.log(content);
+
+    notesList.style.display = 'none'
+    createBtn.style.display = 'none'
+    newNoteForm.style.display = 'flex'
+    noteContent.style.display = 'block'
+
+    addBtn.innerHTML = 'Update'
+
+    titleBox.value = title
+    noteTextarea.value = content
+
+    // noteDiv.parentElement.remove()
+
+    addBtn.addEventListener('click',function () {
+        if(addBtn.innerHTML == 'Update'){
+            updateNote(noteId);
+        }
+        console.log(noteId);
+    })
+}
+
+
+
+function updateNote(noteId){
+    const noteDiv = document.querySelector(`div[data-id="${noteId}"]`)
+
+    console.log(noteId);
+    console.log(noteDiv);
+
+    const title = titleBox.value
+    const content = noteTextarea.value
+
+    if(title.trim() === '' || content.trim() === ''){
+        alert('Both title and content are required')
+        return;
+    }
+
+    noteDiv.querySelector('h3').innerHTML = `${title}` 
+    noteDiv.querySelector('p').innerHTML = `${content}`
+
+    resetForm()
+}

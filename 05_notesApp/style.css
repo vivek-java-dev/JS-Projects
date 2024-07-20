@@ -78,7 +78,7 @@ body{
 #title-box{
     border: none;
     outline: none;
-    background-color: transparent;
+    background-color: #D8F3DC;
     font-size: 20px;
     font-weight: 800;
     letter-spacing: 3px;
@@ -127,11 +127,17 @@ body{
     border-radius: 12px;
     font-size:32px;
     padding-left: 10px;
-    padding-right: 10px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     
+}
+.note span{
+    padding-right: 10px;
+    cursor: pointer;
+}
+.inner-note{
+    width: 80%;
 }
 ::-webkit-scrollbar {
     width: 8px; 
