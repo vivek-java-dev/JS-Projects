@@ -17,11 +17,11 @@
                 <div class="circle"><i class="ri-menu-3-line"></i></div>
             </nav>
             <div class=" music-img"></div>
-            <h1>Shape of you</h1>
-            <p>Ed sheeran</p>
+            <h1 id="song-title">Shape of you</h1>
+            <p id="artist-name">Ed sheeran</p>
 
             <audio  id="song">
-                <source src = "Media/Ainsi Bas La Vida - Indila-(DJMaza).mp3" type="audio/mpeg">
+                <source src = "Media/Shape-Of-You(PagalNew.Com.Se).mp3" type="audio/mpeg">
             </audio>
             <input type="range" id="progress">
 
@@ -37,10 +37,42 @@
         let progress = document.getElementById('progress')
         let song = document.getElementById('song')
         let ctrlIcon = document.getElementById('ctrl-icon')
+        let songTitle = document.getElementById('song-title');
+        let artistName = document.getElementById('artist-name');
+        const prevButton = document.querySelector('.controls div:nth-child(1)');
+        const nextButton = document.querySelector('.controls div:nth-child(3)');
+             
+        const songs = [
+            {
+                title: "Shape of You",
+                artist: "Ed Sheeran",
+                src: "Media/Shape-Of-You(PagalNew.Com.Se).mp3"
+            },
+            {
+                title: "Closer",
+                artist: "chainsmokers",
+                src: "Media/Closer(PagalNew.Com.Se).mp3"
+            },
+            {
+                title: "Ainsi Bas La Vida",
+                artist: "Indila",
+                src: "Media/Ainsi Bas La Vida - Indila-(DJMaza).mp3"
+            }
+        ];
+        
+        let currentSongIndex = 0;
+
+        function loadSong(songIndex) {
+            const songData = songs[songIndex];
+            song.src = songData.src;
+            songTitle.textContent = songData.title;
+            artistName.textContent = songData.artist;
+            song.load();
+        }
 
         song.onloadeddata = function(){
             progress.max = song.duration;
-            progress.value = song.cuttentTime;
+            progress.value = song.currentTime;
         }
 
         function playPause(){
@@ -60,12 +92,41 @@
                 progress.value = song.currentTime
             },500)
         }
+
         progress.onchange = function () {
-            song.play()
             song.currentTime = progress.value
-            ctrlIcon.classList.add("ri-pause-fill")
+            if (song.paused) {
+                song.play()
+                ctrlIcon.classList.add("ri-pause-fill")
                 ctrlIcon.classList.remove ("ri-play-fill")
+            }
         }
+
+        loadSong(currentSongIndex);
+
+        prevButton.addEventListener('click',function(){
+            currentSongIndex = (currentSongIndex - 1 + songs.length)% songs.length
+            loadSong(currentSongIndex)
+            if(!song.play()){
+                song.play()
+            }
+            ctrlIcon.classList.remove("ri-play-fill");
+            ctrlIcon.classList.add("ri-pause-fill");
+        })
+        nextButton.addEventListener('click', function() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            loadSong(currentSongIndex);
+            if (!song.play()) {
+                song.play();
+            }
+            ctrlIcon.classList.remove("ri-play-fill");
+            ctrlIcon.classList.add("ri-pause-fill");
+        });
+
+        song.addEventListener('ended', function() {
+             nextButton.click();
+        });
+
     </script>
 </body>
 </html>
